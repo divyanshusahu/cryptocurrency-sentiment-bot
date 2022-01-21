@@ -1,9 +1,18 @@
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 
-const token = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const url = process.env.APP_URL
 
-const bot = new TelegramBot(token, { polling: true });
+const options = {
+  webhook: {
+    port: process.env.PORT
+  }
+}
+
+const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, options);
+
+bot.setWebHook(`${url}/bot${TELEGRAM_BOT_TOKEN}`)
 
 const FETCH_FEAR_AND_GREED_INDEX_MESSAGE = "Get Fear and Greed Index";
 
