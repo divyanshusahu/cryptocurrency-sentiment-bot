@@ -1,6 +1,6 @@
 {
   "name": "cryptocurrency-sentiment-bot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A cryptocurrency bot to fetch Crypto Fear & Greed Index",
   "main": "index.js",
   "scripts": {

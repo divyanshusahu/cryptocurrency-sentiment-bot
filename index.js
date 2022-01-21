@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 
-const { sendMessage } = require("./utils");
+const { parseMessage } = require("./utils");
 const { TELEGRAM_API, WEBHOOK_URL, URI } = require("./constants");
 
 const PORT = process.env.PORT || 3000;
@@ -19,9 +19,9 @@ const init = async () => {
 
 app.post(URI, async (req, res) => {
   const chat_id = req.body.message.chat.id;
-  const text = "Welcome user. This bot is a work in progress. Stay tuned!";
+  const text = req.body.message.text
 
-  await sendMessage(chat_id, text);
+  await parseMessage(chat_id, text);
 
   return res.send();
 });
