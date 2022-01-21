@@ -7,7 +7,7 @@ const axios = require("axios");
 const { sendMessage } = require("./utils");
 const { TELEGRAM_API, WEBHOOK_URL, URI } = require("./constants");
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(bodyParser.json());
