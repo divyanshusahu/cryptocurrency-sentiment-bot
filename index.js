@@ -1,52 +1,32 @@
-process.env.NTBA_FIX_319=1
-
-const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const url = process.env.APP_URL
+const express = require("express");
+const bodyParser = require("body-parser");
+const axios = require("axios");
 
-const options = {
-  webhook: {
-    port: process.env.PORT || 5000
-  }
-}
+const { sendMessage } = require("./utils");
+const { TELEGRAM_API, WEBHOOK_URL, URI } = require("./constants");
 
-const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, options);
+const PORT = process.env.port || 3000;
 
-bot.setWebHook(`${url}/webhook/${TELEGRAM_BOT_TOKEN}`)
+const app = express();
+app.use(bodyParser.json());
 
-const FETCH_FEAR_AND_GREED_INDEX_MESSAGE = "Get Fear and Greed Index";
+const init = async () => {
+  const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`);
+  console.log(res.data);
+};
 
-const FEAR_AND_GREED_INDEX_IMAGE =
-  "https://alternative.me/crypto/fear-and-greed-index.png";
+app.post(URI, async (req, res) => {
+  const chat_id = req.body.message.chat.id;
+  const text = "Welcome user. This bot is a work in progress. Stay tuned!";
 
-bot.onText(/\/start/, (message) => {
-  bot.sendMessage(
-    message.chat.id,
-    "Welcome to the Crypto Fear & Greed Index bot",
-    {
-      reply_markup: {
-        keyboard: [[FETCH_FEAR_AND_GREED_INDEX_MESSAGE]],
-      },
-    }
-  );
+  await sendMessage(chat_id, text);
+
+  return res.send();
 });
 
-bot.on("message", (message) => {
-  if (
-    message.text.toString().indexOf(FETCH_FEAR_AND_GREED_INDEX_MESSAGE) === 0
-  ) {
-    bot.sendPhoto(message.chat.id, FEAR_AND_GREED_INDEX_IMAGE, {
-      reply_markup: {
-        keyboard: [[FETCH_FEAR_AND_GREED_INDEX_MESSAGE]],
-      },
-    });
-  } else {
-    bot.sendMessage(message.chat.id, "Wrong command selected", {
-      reply_markup: {
-        keyboard: [[FETCH_FEAR_AND_GREED_INDEX_MESSAGE]],
-      },
-    });
-  }
+app.listen(PORT, async () => {
+  console.log("app running on port", PORT);
+  await init();
 });
