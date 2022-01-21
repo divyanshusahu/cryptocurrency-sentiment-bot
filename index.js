@@ -1,3 +1,5 @@
+process.env.NTBA_FIX_319=1
+
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 
@@ -6,13 +8,13 @@ const url = process.env.APP_URL
 
 const options = {
   webhook: {
-    port: process.env.PORT
+    port: process.env.PORT || 5000
   }
 }
 
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, options);
 
-bot.setWebHook(`${url}/bot${TELEGRAM_BOT_TOKEN}`)
+bot.setWebHook(`${url}/webhook/${TELEGRAM_BOT_TOKEN}`)
 
 const FETCH_FEAR_AND_GREED_INDEX_MESSAGE = "Get Fear and Greed Index";
 
