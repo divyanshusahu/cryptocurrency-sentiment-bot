@@ -1,0 +1,19 @@
+{
+  "name": "cryptocurrency-sentiment-bot",
+  "version": "0.0.1",
+  "description": "A cryptocurrency bot to fetch Crypto Fear & Greed Index",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Divyanshu",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^14.2.0",
+    "node-telegram-bot-api": "^0.56.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
