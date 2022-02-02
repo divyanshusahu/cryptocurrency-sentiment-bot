@@ -1,5 +1,6 @@
 const axios = require("axios");
 
+const { get_fng_index } = require("./fng_client");
 const {
   TELEGRAM_API,
   KEYBOARD_COMMANDS,
@@ -44,7 +45,8 @@ const parseMessage = async (chat_id, text) => {
   } else if (
     text.toString().indexOf(KEYBOARD_COMMANDS.fetch_fear_and_greed_index) === 0
   ) {
-    await sendPhoto(chat_id, FEAR_AND_GREED_INDEX_IMAGE);
+    data = await get_fng_index();
+    await sendMessage(chat_id, `${data.value_classification}:${data.value}`)
   } else {
     await sendCommandNotFoundMessage(chat_id);
   }
