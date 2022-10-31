@@ -13,8 +13,20 @@ const app = express();
 app.use(bodyParser.json());
 
 const init = async () => {
-  const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`);
-  console.log(res.data);
+  const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`).then(res => {
+    console.log("success ", res.data);
+  })
+  .catch(err => {
+    if (err.res) {
+      // If response error then log response, status code and headers
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.headers);
+    } else {
+      // Something else 
+      console.log('error: ', err.message);
+    }
+  })
 };
 
 app.post(URI, async (req, res) => {
